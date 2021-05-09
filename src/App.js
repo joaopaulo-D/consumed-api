@@ -1,23 +1,29 @@
-import logo from './logo.svg';
+import { useEffect, useState } from 'react';
+import axios from 'axios';
 import './App.css';
 
 function App() {
+
+  const [animais, setAnimais] = useState([]);
+
+  useEffect(() => {
+    axios.get('http://localhost/php/Back-end/api.php').then(function(res){
+      setAnimais(res.data);
+    })
+  }, []);
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      {
+        animais.map(function(val){
+          return(
+            <div className="containerImage">
+              <img src={val.imagem}/>
+              <p>{val.animal}</p>
+            </div>
+          )
+        })
+      }
     </div>
   );
 }
